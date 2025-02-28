@@ -1,12 +1,7 @@
 spring:
   application:
     name: transaction-service
-
-  server:
-    port: 8080
-
   kafka:
-    bootstrap-servers: localhost:29092
     producer:
       topic: authentication
       acks: all
@@ -16,4 +11,6 @@ spring:
       enable-idempotence: true
       key-serializer: org.apache.kafka.common.serialization.StringSerializer
       value-serializer: org.apache.kafka.common.serialization.StringSerializer
-    group-id: transaction
+    bootstrap-servers: localhost:29092
+  server:
+    port: 8080

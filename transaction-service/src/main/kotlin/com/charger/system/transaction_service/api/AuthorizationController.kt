@@ -1,6 +1,7 @@
 package com.charger.system.transaction_service.api
 
 import AuthorizeRequest
+import com.charger.system.transaction_service.model.AuthorizationResponse
 import com.charger.system.transaction_service.service.AuthenticationServiceImpl
 import io.swagger.v3.oas.annotations.Operation
 import io.swagger.v3.oas.annotations.responses.ApiResponse
@@ -37,11 +38,11 @@ class AuthorizationController(
             ApiResponse(responseCode = "500", description = "Internal server error")
         ]
     )
-    fun handleRequest(@Valid @RequestBody details: AuthorizeRequest): ResponseEntity<String> {
-            logger.info("🔹 Received authorization request: {}", details)
+    fun authorizeRequest(@Valid @RequestBody details: AuthorizeRequest): ResponseEntity<AuthorizationResponse> {
+            logger.info("Received authorization request: {}", details)
             val authenticationResponse = authorizationService.authenticate(details)
             val authorizationStatus = authorizationService.authorisation(details, authenticationResponse)
-            logger.info("Authorization status: {}", authorizationStatus)
+            logger.info("Authorization status: {}", authorizationStatus.status)
             return  ResponseEntity.ok(authorizationStatus)
     }
 }

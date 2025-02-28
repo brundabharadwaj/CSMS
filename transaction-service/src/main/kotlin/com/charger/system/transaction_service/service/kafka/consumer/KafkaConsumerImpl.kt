@@ -12,7 +12,7 @@ import org.slf4j.LoggerFactory
 @Service
 class KafkaConsumerImpl(
     private val objectMapper: ObjectMapper,
-    private val responseStore: ResponseStore  // Stores request-response mappings
+    private val responseStore: ResponseStore
 ) : KafkaConsumer {
 
     private val logger: Logger = LoggerFactory.getLogger(KafkaConsumerImpl::class.java)
@@ -23,39 +23,38 @@ class KafkaConsumerImpl(
     )
     override fun listen(msg: String) {
         try {
-            logger.info("📩 Received message: $msg")
+            logger.info("Received message: $msg")
             val jsonNode = objectMapper.readTree(msg)
 
             val correlationId = jsonNode["correlationId"]?.asText() ?: run {
-                logger.warn("⚠️ Missing correlationId in message")
+                logger.warn("Missing correlationId in message")
                 return
             }
 
             val authStatus = jsonNode["authStatus"]?.asText()?.let {
                 runCatching { AuthenticationStatus.valueOf(it) }.getOrElse {
-                    logger.warn("⚠️ Invalid authStatus received: $it for correlationId: $correlationId. Defaulting to UNKNOWN.")
-                    AuthenticationStatus.UNKNOWN
+                    logger.warn("Invalid authStatus received: $it for correlationId: $correlationId. Defaulting to UNKNOWN.")
+                    AuthenticationStatus.INVALID
                 }
             } ?: run {
-                logger.warn("⚠️ Missing authStatus in message for correlationId: $correlationId")
+                logger.warn("Missing authStatus in message for correlationId: $correlationId")
                 return
             }
 
-            // Handle 'EXCEPTION_AROSE' case specifically
             val resolvedAuthStatus = if (authStatus == AuthenticationStatus.UNKNOWN) {
-                logger.warn("⚠️ Exception occurred for correlationId: $correlationId. Marking as 'Unknown'")
+                logger.warn("Exception occurred for correlationId: $correlationId. Marking as 'Unknown'")
                 AuthenticationStatus.UNKNOWN
             } else {
                 authStatus
             }
 
-            logger.info("✅ Processed authentication response: $resolvedAuthStatus for Correlation ID: $correlationId")
+            logger.info("Processed authentication response: $resolvedAuthStatus for Correlation ID: $correlationId")
 
             // Complete the waiting future with the processed authentication status
             responseStore.completeFuture(correlationId, resolvedAuthStatus)
 
         } catch (e: Exception) {
-            logger.error("❌ Error processing Kafka message: ${e.localizedMessage}", e)
+            logger.error("Error processing Kafka message: ${e.localizedMessage}", e)
         }
     }
 }
