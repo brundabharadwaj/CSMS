@@ -53,7 +53,7 @@ class ValidationServiceImpl(
         return entry != null
     }
 
-    private fun generateHMACSignature(request: SecureAuthorizeRequest): String {
+    fun generateHMACSignature(request: SecureAuthorizeRequest): String {
         return try {
             val message = "${request.stationUuid}:${request.driverIdentifier.id}:${request.timestamp}:${request.nonce}"
 

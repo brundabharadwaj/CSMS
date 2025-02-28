@@ -31,8 +31,11 @@ dependencies {
 	implementation("org.springframework.kafka:spring-kafka")
 	compileOnly("org.projectlombok:lombok")
 	runtimeOnly("com.h2database:h2")
-	implementation("org.springframework.boot:spring-boot-starter-data-jpa")
 
+	testImplementation("org.junit.jupiter:junit-jupiter:5.10.2")
+	testImplementation("org.junit.platform:junit-platform-suite:1.10.2")
+	implementation("org.springframework.boot:spring-boot-starter-data-jpa")
+	testImplementation("io.mockk:mockk:1.13.9")
 	annotationProcessor("org.projectlombok:lombok")
 	testImplementation("org.springframework.boot:spring-boot-starter-test")
 	testImplementation("org.jetbrains.kotlin:kotlin-test-junit5")
