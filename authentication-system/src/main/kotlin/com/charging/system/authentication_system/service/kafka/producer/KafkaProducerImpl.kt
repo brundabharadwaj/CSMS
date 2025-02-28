@@ -12,7 +12,7 @@ class KafkaProducerImpl(
         try {
             println("sending message back...")
             kafkaTemplate.send(topic, message)
-            println("📢 Message sent to topic '$topic': $message")
+            println("Message sent to topic '$topic': $message")
         } catch (e: Exception) {
             println("Error sending message to Kafka: ${e.message}")
         }

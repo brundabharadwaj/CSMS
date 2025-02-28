@@ -1,0 +1,36 @@
+spring:
+  application:
+    name: authentication-system
+
+  kafka:
+    auto-offset-reset: latest
+    bootstrap-servers: localhost:29092
+    group-id: authentication-group
+    consume:
+      topic:
+        name: authentication
+    produce:
+      topic:
+        name: authenticate-status
+
+  main:
+    allow-bean-definition-overriding: true
+
+  server:
+    port: 8081
+
+  jpa:
+    database-platform: org.hibernate.dialect.H2Dialect
+    hibernate:
+      ddl-auto: update
+
+  h2:
+    console:
+      enabled: true
+      path: /h2-console
+
+  datasource:
+    url: jdbc:h2:mem:testdb
+    driverClassName: org.h2.Driver
+    username: sa
+    password: ""
