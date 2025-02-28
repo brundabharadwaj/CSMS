@@ -43,7 +43,7 @@ class KafkaMessageProcessor(
                 mapOf("correlationId" to correlationId, "authStatus" to status)
             )
 
-            // Send the response message via Kafka
+
             kafkaProducerService.sendMessage(topic, responseMessage)
             logger.info("Sent authentication response: $responseMessage for Correlation ID: $correlationId")
         } catch (e: Exception) {

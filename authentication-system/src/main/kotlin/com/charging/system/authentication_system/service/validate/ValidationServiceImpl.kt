@@ -2,6 +2,7 @@ package com.charging.system.authentication_system.service.validate
 
 import SecureAuthorizeRequest
 import com.charging.system.authentication_system.repositories.AuthenticationRepository
+import com.charging.system.authentication_system.service.authentication.AuthenticationService
 import com.fasterxml.jackson.databind.ObjectMapper
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
@@ -15,7 +16,7 @@ import java.util.UUID
 @Service
 class ValidationServiceImpl(
     private val objectMapper: ObjectMapper,
-    private val authRepository: AuthenticationRepository
+    private val authenticationService: AuthenticationService
 ) : ValidationService {
 
     companion object {
@@ -49,7 +50,7 @@ class ValidationServiceImpl(
     }
 
     private fun isAuthenticated(stationUuid: UUID, driverId: UUID): Boolean {
-        val entry = authRepository.findByStationUuidAndDriverId(stationUuid, driverId)
+        val entry = authenticationService.findByStationIdAndDriverId(stationUuid, driverId)
         return entry != null
     }
 
