@@ -15,7 +15,6 @@ import java.util.UUID
 
 @Service
 class ValidationServiceImpl(
-    private val objectMapper: ObjectMapper,
     private val authenticationService: AuthenticationService
 ) : ValidationService {
 
