@@ -27,3 +27,7 @@ To bring up Kafka, we are using Docker Compose. Follow these steps:
 
    ```bash
    docker-compose up -d
+
+
+
+![alt text](image.png)
