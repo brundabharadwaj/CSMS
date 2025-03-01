@@ -5,7 +5,7 @@ This project consists of two Spring Boot applications:
 - **Transaction Service**: Runs on port `8080`. (Swagger Link:http://localhost:8080/swagger-ui/index.html)
 - **Authentication System**: Runs on port `8081`.
 
-Both applications are backed by an **H2 Database**, and **Kafka** is used for message processing.
+Authentication System is backed by an **H2 Database**, and **Kafka** is used for message processing in both systems.
 
 ## System Requirements
 
