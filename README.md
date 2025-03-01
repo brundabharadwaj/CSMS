@@ -1,4 +1,4 @@
-# CSMS Assignment
+# CSMS 
 
 This project consists of two Spring Boot applications:
 
