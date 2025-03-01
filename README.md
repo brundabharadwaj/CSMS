@@ -30,4 +30,4 @@ To bring up Kafka, we are using Docker Compose. Follow these steps:
 
 
 
-![alt text](image.png)
+![alt text](image-1.png)
