@@ -25,7 +25,13 @@
         private lateinit var authenticationService: AuthenticationServiceImpl
         private val producerService: ProducerService = mockk()
         private val responseStore: ResponseStore = mockk()
-
+        companion object {
+            @JvmStatic
+            fun provideFailureCases(): Stream<Arguments> = Stream.of(
+                Arguments.of(TimeoutException("Future timed out"), "Request Timeout"),
+                Arguments.of(RuntimeException(), "Authentication failed")
+            )
+        }
         @BeforeEach
         fun setUp() {
             authenticationService = AuthenticationServiceImpl(producerService, responseStore)
@@ -44,22 +50,11 @@
             mockkStatic(UUID::class)
             every { UUID.randomUUID().toString() } returns correlationId
 
-            // Act
             val result = authenticationService.authenticate(request)
 
-            // Assert
             assertEquals(AuthenticationStatus.ACCEPTED, result)
         }
 
-
-
-            companion object {
-                @JvmStatic
-                fun provideFailureCases(): Stream<Arguments> = Stream.of(
-                    Arguments.of(TimeoutException("Future timed out"), "Authentication timed out"),
-                    Arguments.of(RuntimeException(), "Authentication failed")
-                )
-            }
             @ParameterizedTest
             @MethodSource(value = ["provideFailureCases"])
             fun `test authenticate should throw relevant Exceptions`(exception: Exception, expectedMessage: String) {
@@ -77,7 +72,6 @@
                 val thrownException = assertThrows<RuntimeException> {
                     authenticationService.authenticate(request)
                 }
-
                 assertEquals(expectedMessage, thrownException.message)
             }
 

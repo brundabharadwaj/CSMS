@@ -4,6 +4,7 @@ package com.charger.system.transaction_service.api;
 import com.charger.system.transaction_service.model.AuthenticationStatus
 import com.charger.system.transaction_service.model.AuthorizationResponse
 import com.charger.system.transaction_service.service.AuthenticationServiceImpl
+import com.charger.system.transaction_service.service.AuthorisationServiceImpl
 import com.ninjasquad.springmockk.MockkBean
 import io.mockk.every
 
@@ -28,6 +29,9 @@ class AuthorizationControllerTest {
 
     @MockkBean
     private lateinit var authenticationService: AuthenticationServiceImpl
+
+    @MockkBean
+    private lateinit var authorisationServiceImpl: AuthorisationServiceImpl
 
     companion object {
 
@@ -74,7 +78,7 @@ class AuthorizationControllerTest {
         // Mock service response
         val mockResponse = AuthorizationResponse("AUTHORIZED")
         every { authenticationService.authenticate(any()) } returns AuthenticationStatus.ACCEPTED
-        every { authenticationService.authorisation(any(), any()) } returns mockResponse
+        every { authorisationServiceImpl.authorisation(any(), any()) } returns mockResponse
 
         mockMvc.perform(
             MockMvcRequestBuilders.post("/api/authorize")
@@ -98,7 +102,7 @@ class AuthorizationControllerTest {
         // Mock service response
         val mockResponse = AuthorizationResponse("AUTHORIZED")
         every { authenticationService.authenticate(any()) } throws RuntimeException("Authentication failed")
-        every { authenticationService.authorisation(any(), any()) } returns mockResponse
+        every { authorisationServiceImpl.authorisation(any(), any()) } returns mockResponse
 
         mockMvc.perform(
             MockMvcRequestBuilders.post("/api/authorize")

@@ -25,24 +25,13 @@ class AuthenticationServiceImpl(
             producerService.sendMessage(kafkaAuthRequest)
             future.get(5, TimeUnit.SECONDS)
         } catch (e: TimeoutException) {
-            throw RuntimeException("Authentication timed out", e)
+            throw RuntimeException("Request Timeout", e)
         } catch (e: Exception) {
             throw RuntimeException("Authentication failed", e)
         }
     }
 
-    override fun authorisation(details: AuthorizeRequest, authenticationResponse: AuthenticationStatus): AuthorizationResponse {
-        return if (authenticationResponse == AuthenticationStatus.ACCEPTED) {
-            AuthorizationResponse(AuthenticationStatus.ACCEPTED.toString(),generateJwtToken())
-        } else {
-            AuthorizationResponse(AuthenticationStatus.INVALID.toString(),null)
-        }
-    }
 
-    private fun generateJwtToken(): String {
-    // Dummy Jwt just for demonstration purpose...
-        return "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c"
-    }
 
 
 }

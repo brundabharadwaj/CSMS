@@ -2,7 +2,9 @@ package com.charger.system.transaction_service.api
 
 import AuthorizeRequest
 import com.charger.system.transaction_service.model.AuthorizationResponse
+import com.charger.system.transaction_service.service.AuthenticationService
 import com.charger.system.transaction_service.service.AuthenticationServiceImpl
+import com.charger.system.transaction_service.service.AuthorisationServiceImpl
 import io.swagger.v3.oas.annotations.Operation
 import io.swagger.v3.oas.annotations.responses.ApiResponse
 import io.swagger.v3.oas.annotations.responses.ApiResponses
@@ -22,7 +24,8 @@ import org.springframework.validation.annotation.Validated
 @RequestMapping("/api/authorize")
 @Tag(name = "Authorization", description = "APIs for handling authorization requests")
 class AuthorizationController(
-    private val authorizationService: AuthenticationServiceImpl
+    private val authenticationService:  AuthenticationServiceImpl,
+    private val authorizationService: AuthorisationServiceImpl
 ) {
 
     private val logger: Logger = LoggerFactory.getLogger(this::class.java)
@@ -42,7 +45,7 @@ class AuthorizationController(
     )
     fun authorizeRequest(@Valid @RequestBody details: AuthorizeRequest): ResponseEntity<AuthorizationResponse> {
         logger.info("Received authorization request: {}", details)
-        val authenticationResponse = authorizationService.authenticate(details)
+        val authenticationResponse = authenticationService.authenticate(details)
         val authorizationStatus = authorizationService.authorisation(details, authenticationResponse)
         logger.info("Authorization status: {}", authorizationStatus.status)
         return  ResponseEntity.ok(authorizationStatus)
