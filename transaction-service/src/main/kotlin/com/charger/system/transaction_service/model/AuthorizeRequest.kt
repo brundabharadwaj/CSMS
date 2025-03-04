@@ -1,18 +1,27 @@
+import io.swagger.v3.oas.annotations.media.Schema
+import jakarta.validation.Valid
+import jakarta.validation.constraints.NotBlank
 import java.util.*
 import javax.crypto.Mac
 import javax.crypto.spec.SecretKeySpec
 
 data class AuthorizeRequest(
+
+    @Schema(name="stationUuid", description = "identifies the station uniquely")
     val stationUuid: UUID,
+
     val driverIdentifier: DriverIdentifier
 )
 data class KafkaAuthRequest(
     val correlationId: String,
+
     val payload: SecureAuthorizeRequest
 )
 
 data class DriverIdentifier(
-    val id: String
+    @Schema(name="id", description = "driver id")
+
+    val id: UUID
 )
 data class SecureAuthorizeRequest(
     val stationUuid: UUID,

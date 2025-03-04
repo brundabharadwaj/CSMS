@@ -15,8 +15,10 @@ import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
+import org.springframework.validation.annotation.Validated
 
 @RestController
+@Validated
 @RequestMapping("/api/authorize")
 @Tag(name = "Authorization", description = "APIs for handling authorization requests")
 class AuthorizationController(
@@ -39,10 +41,10 @@ class AuthorizationController(
         ]
     )
     fun authorizeRequest(@Valid @RequestBody details: AuthorizeRequest): ResponseEntity<AuthorizationResponse> {
-            logger.info("Received authorization request: {}", details)
-            val authenticationResponse = authorizationService.authenticate(details)
-            val authorizationStatus = authorizationService.authorisation(details, authenticationResponse)
-            logger.info("Authorization status: {}", authorizationStatus.status)
-            return  ResponseEntity.ok(authorizationStatus)
+        logger.info("Received authorization request: {}", details)
+        val authenticationResponse = authorizationService.authenticate(details)
+        val authorizationStatus = authorizationService.authorisation(details, authenticationResponse)
+        logger.info("Authorization status: {}", authorizationStatus.status)
+        return  ResponseEntity.ok(authorizationStatus)
     }
 }

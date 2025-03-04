@@ -3,13 +3,23 @@ package com.charger.system.transaction_service.exception
 import jakarta.validation.ConstraintViolationException
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
+import org.springframework.http.converter.HttpMessageNotReadableException
 import org.springframework.validation.FieldError
 import org.springframework.web.bind.MethodArgumentNotValidException
 import org.springframework.web.bind.annotation.ExceptionHandler
 import org.springframework.web.bind.annotation.RestControllerAdvice
 
 @RestControllerAdvice
-class GlobalExceptionHandler {
+class ExceptionAdvisor {
+//HttpMessageNotReadableException
+
+@ExceptionHandler(HttpMessageNotReadableException::class)
+fun handleHttpMessageNotReadableException(ex: MethodArgumentNotValidException): ResponseEntity<Map<String, String>> {
+    val errors = ex.bindingResult.allErrors.associate {
+        (it as FieldError).field to (it.defaultMessage ?: "Kindly ensure details passed are as expected")
+    }
+    return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errors)
+}
 
     // Handles @Valid or @Validated validation errors
     @ExceptionHandler(MethodArgumentNotValidException::class)

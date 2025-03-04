@@ -34,7 +34,7 @@
         @Test
         fun `test authenticate success`() {
             val correlationId = UUID.randomUUID().toString()
-            val request = AuthorizeRequest(UUID.randomUUID(), DriverIdentifier(UUID.randomUUID().toString()))
+            val request = AuthorizeRequest(UUID.randomUUID(), DriverIdentifier(UUID.randomUUID()))
 
             val future = mockk<CompletableFuture<AuthenticationStatus>>()
             every { responseStore.createFuture(correlationId) } returns future
@@ -64,7 +64,7 @@
             @MethodSource(value = ["provideFailureCases"])
             fun `test authenticate should throw relevant Exceptions`(exception: Exception, expectedMessage: String) {
                 val correlationId = UUID.randomUUID().toString()
-                val request = AuthorizeRequest(UUID.randomUUID(), DriverIdentifier(UUID.randomUUID().toString()))
+                val request = AuthorizeRequest(UUID.randomUUID(), DriverIdentifier(UUID.randomUUID()))
 
                 val future = mockk<CompletableFuture<AuthenticationStatus>>()
 
