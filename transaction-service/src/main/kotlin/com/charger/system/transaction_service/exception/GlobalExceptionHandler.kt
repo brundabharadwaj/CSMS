@@ -15,7 +15,7 @@ class GlobalExceptionHandler {
     @ExceptionHandler(MethodArgumentNotValidException::class)
     fun handleValidationException(ex: MethodArgumentNotValidException): ResponseEntity<Map<String, String>> {
         val errors = ex.bindingResult.allErrors.associate {
-            (it as FieldError).field to (it.defaultMessage ?: "Invalid value")
+            (it as FieldError).field to (it.defaultMessage ?: "Kindly ensure details passed are as expected")
         }
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errors)
     }
@@ -24,7 +24,7 @@ class GlobalExceptionHandler {
     @ExceptionHandler(ConstraintViolationException::class)
     fun handleConstraintViolationException(ex: ConstraintViolationException): ResponseEntity<Map<String, String>> {
         val errors = ex.constraintViolations.associate {
-            it.propertyPath.toString() to (it.message ?: "Invalid value")
+            it.propertyPath.toString() to (it.message ?: "Kindly ensure details passed are as expected")
         }
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errors)
     }
@@ -32,7 +32,7 @@ class GlobalExceptionHandler {
 
     @ExceptionHandler(IllegalArgumentException::class)
     fun handleIllegalArgumentException(ex: IllegalArgumentException): ResponseEntity<String> {
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ex.message ?: "Invalid input")
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ex.message ?: "Kindly ensure details passed are as expected")
     }
 
 
