@@ -23,14 +23,14 @@ class KafkaMessageProcessor(
     fun processAndSendMessage(msg: String, topic: String) {
         var correlationId = UUID.randomUUID()
         try {
-            // Parse the message
+
             val kafkaRequest = objectMapper.readValue(msg, KafkaAuthRequest::class.java)
             correlationId = kafkaRequest.correlationId
             val secureRequest = kafkaRequest.payload
             logger.info("Received authentication request: $secureRequest with Correlation ID: $correlationId")
 
             // Perform authentication check
-            val status = if (validationService.isAuthentic(secureRequest)) {
+            val status = if (validationService.isRequestAuthentic(secureRequest)) {
                 logger.info("Authentication successful!")
                 AuthenticationStatus.ACCEPTED
             } else {

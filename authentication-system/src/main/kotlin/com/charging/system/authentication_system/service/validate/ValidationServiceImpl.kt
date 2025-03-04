@@ -24,7 +24,7 @@ class ValidationServiceImpl(
         private val logger: Logger = LoggerFactory.getLogger(ValidationServiceImpl::class.java)
     }
 
-    override fun isAuthentic(request: SecureAuthorizeRequest): Boolean {
+    override fun isRequestAuthentic(request: SecureAuthorizeRequest): Boolean {
         val expectedSignature = generateHMACSignature(request)
 
         return when {

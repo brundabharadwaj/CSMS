@@ -4,5 +4,5 @@ import SecureAuthorizeRequest
 
 interface ValidationService {
 
-    fun isAuthentic(request: SecureAuthorizeRequest): Boolean
+    fun isRequestAuthentic(request: SecureAuthorizeRequest): Boolean
 }
