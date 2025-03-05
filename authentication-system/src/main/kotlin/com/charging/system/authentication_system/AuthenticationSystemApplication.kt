@@ -5,7 +5,7 @@ import org.springframework.boot.runApplication
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories
 import org.springframework.scheduling.annotation.EnableAsync
 
-@EnableAsync
+
 @EnableJpaRepositories
 @SpringBootApplication
 class AuthenticationSystemApplication

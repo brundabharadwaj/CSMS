@@ -18,7 +18,7 @@ class KafkaConsumerImpl(
     private val logger: Logger = LoggerFactory.getLogger(KafkaConsumerImpl::class.java)
 
     @KafkaListener(
-        topics = ["authentication-status"],
+        topics = ["authenticate-status"],
         groupId = "transaction-group"
     )
     override fun listen(msg: String) {
